@@ -1,0 +1,12 @@
+export const anchorMenu = state => state.anchorMenu
+export const getCharacter = state => state.character
+export const getHeadbarHeight = state => state.HEADBAR_HEIGHT
+export const getProgressList = state => state.processList
+export const getStageID = state => state.stageID
+export const getDeviceWidth = state => state.DEVICE_WIDTH
+export const getStageIndex = state => state.stageIndex
+export const getGameStatus = state => state.gameOver
+export const getReadArticle = state => state.readArticle
+export const getTeachingGame = state => state.teachingGame
+export const getItems = state => state.items
+export const getFinalCost = state => state.finalTotalCost

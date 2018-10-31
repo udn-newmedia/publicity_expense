@@ -1,6 +1,6 @@
 # election_game_1
 
-> A Vue.js project
+> A web game about election 2018 in Taiwan.
 
 ## Build Setup
 
