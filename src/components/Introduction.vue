@@ -1,10 +1,10 @@
 <template>
   <div class="intro-wrapper">
     <div class="intro-container">
-    <h2>選舉宣傳費怎麼花？<br>你來分配看看！</h2>
-    <Share href="https:www.udn.com"></Share>
+    <h2>我的存款夠不夠參選？<br>遊戲告訴你選舉多燒錢</h2>
+    <Share href="https://udn.com/upf/newmedia/2018_data/2018election/game1/index.html"></Share>
     <img class="intro-cover-image" src="static/pictures/bg.svg" alt="">
-    <p>九合一選戰激烈，候選人砸錢宣傳不手軟，打一場選戰燒掉多少宣傳費？來玩玩看互動小遊戲，讓你了解候選人的競選經費花到哪裡去。</p>
+    <p>九合一選戰激烈，一場選舉燒掉多少競選經費？素人想參政，門檻究竟有多高？來玩玩看互動小遊戲，看看你的存款夠不夠參選。</p>
     <p><br></p>
 
     <div class="intro-next-step">開始</div>

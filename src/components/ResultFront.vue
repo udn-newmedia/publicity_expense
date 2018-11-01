@@ -7,7 +7,7 @@
           <span class="total-cost"></span>
           <span class="total-cost-unit">萬元</span>
         </div>
-      <h2>宣傳費</h2>
+      <h2>選舉經費</h2>
     </div>
   </div>  
 </template>

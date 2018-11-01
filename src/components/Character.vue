@@ -1,7 +1,7 @@
 <template>
   <div class="character-wrapper">
     <div class="character-container">
-      <h2>如果你有機會從政，<br>你想參選...？</h2>
+      <h2>如果有機會參選<br>我想當...？</h2>
       <p><br></p>
       <div class="character-btn-wrapper">
         <div class="character-btn" @click="characterEvent(1)">

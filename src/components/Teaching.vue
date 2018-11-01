@@ -10,7 +10,7 @@
       <div class="teaching-class2">
         <div class="teaching-bm" id="teaching-bm2"></div>
         <div class="teaching-class-number">2</div>
-        <div class="teaching-class-text">點案宣傳品追加數量</div>
+        <div class="teaching-class-text">點按宣傳品追加數量</div>
       </div>
     </div>
     <div :style="{ opacity: teachingOpacity[2] }" class="teaching-class">

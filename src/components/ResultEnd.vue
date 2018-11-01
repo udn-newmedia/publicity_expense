@@ -30,7 +30,7 @@
         </div>
       </div>
       <p><br></p>
-      <p>根據聯合報採訪多位候選人和政治公關業者，估計六都市長候選人競選經費上看1.5億元，其中宣傳支出約占三分之二，至少1億元起跳。台北市議員候選人選舉花費至少500萬元，宣傳支出約占四分之三，約300萬到400萬元。台北市里長候選人競選經費約5萬到10萬元，宣傳支出約3萬到5萬元。</p>
+      <p>根據聯合報採訪多位候選人和政治公關業者，估計六都市長候選人競選經費上看1.5億元；台北市議員候選人選舉花費至少500萬元。台北市里長候選人競選經費約5萬到10萬元。</p>
       <p><br></p>
 
       <div class="list-table">
@@ -121,28 +121,28 @@
             <div class="list-catogory-name">
               <div class="list-catogory-name-first"></div>
               <div class="list-catogory-name-second"></div></div>
-            <div class="list-catogory-description">製作費加上託播費：約600-900萬元／支</div>
+            <div class="list-catogory-description">製作費加上託播費：約600-900萬元／支（註1）</div>
             <div class="list-catogory-amount">0</div>
           </div>
           <div class="list-catogory-row">
             <div class="list-catogory-name">
               <div class="list-catogory-name-first"></div>
               <div class="list-catogory-name-second"></div></div>
-            <div class="list-catogory-description">1萬元／月*6個月</div>
+            <div class="list-catogory-description">1萬元／月*6個月（註2）</div>
             <div class="list-catogory-amount">0</div>
           </div>
           <div class="list-catogory-row">
             <div class="list-catogory-name">
               <div class="list-catogory-name-first"></div>
               <div class="list-catogory-name-second"></div></div>
-            <div class="list-catogory-description">約6-8萬元／月*6個月</div>
+            <div class="list-catogory-description">約6-8萬元／月*6個月（註3）</div>
             <div class="list-catogory-amount">0</div>
           </div>
           <div class="list-catogory-row">
             <div class="list-catogory-name">
               <div class="list-catogory-name-first"></div>
               <div class="list-catogory-name-second"></div></div>
-            <div class="list-catogory-description">約30-40萬元</div>
+            <div class="list-catogory-description">約30-40萬元（註4）</div>
             <div class="list-catogory-amount">0</div>
           </div>
           <div class="list-catogory-row">
@@ -201,7 +201,7 @@
       return {
         finalTotalCost: 0,
         finalTotalList: [],
-        resultDescriptionText: ['台北市長候選人選舉宣傳費約1億元', '台北市議員候選人選舉宣傳費約300-400萬元', '台北市里長候選人選舉宣傳費約3-5萬元']
+        resultDescriptionText: ['台北市長候選人選舉經費約1.5億元', '台北市議員候選人選舉經費約500萬元', '台北市里長候選人選舉經費約5萬元']
       }
     },
     methods: {
