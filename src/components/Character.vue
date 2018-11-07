@@ -1,5 +1,5 @@
 <template>
-  <div class="character-wrapper">
+  <div class="character-wrapper" ref="characterRef">
     <div class="character-container">
       <h2>如果有機會參選<br>我想當...？</h2>
       <p><br></p>
@@ -9,7 +9,9 @@
           <p class="election-name"> &nbsp市長&nbsp </p>
           <div class="character-btn-image-wrapper">
             <div class="character-face" id="mayor-face"></div>
-            <img class="btn-mask" src="static/characters/gray_face/mayor_gray.svg">
+            <div class="btn-mask-wrapper">
+              <img class="btn-mask" src="static/characters/gray_face/mayor_gray.svg">
+            </div>
           </div>
         </div>
         <div class="character-btn" @click="characterEvent(2)">
@@ -17,7 +19,9 @@
           <p class="election-name"> &nbsp議員&nbsp </p>
           <div class="character-btn-image-wrapper">
             <div class="character-face" id="parliamentary-face"></div>
-            <img class="btn-mask" src="static/characters/gray_face/parliamentary_gray.svg">
+            <div class="btn-mask-wrapper">
+              <img class="btn-mask" src="static/characters/gray_face/parliamentary_gray.svg">
+            </div>
           </div>
         </div>
         <div class="character-btn" @click="characterEvent(3)">
@@ -25,13 +29,17 @@
           <p class="election-name"> &nbsp里長&nbsp </p>
           <div class="character-btn-image-wrapper">
             <div class="character-face" id="village-face"></div>
-            <img class="btn-mask" src="static/characters/gray_face/village_gray.svg">
+            <div class="btn-mask-wrapper">
+              <img class="btn-mask" src="static/characters/gray_face/village_gray.svg">
+            </div>
           </div>
         </div>
       </div>
       <p><br></p>
       <div class="annotation"><p>註：因各縣市人口數差異大，以下人口數與選舉宣傳支出金額計算，將以台北市為例。</p></div>
-      <div class="character-next-step">下一步</div>
+      <div class="btn-wrapper">
+        <div class="character-next-step" @click="goToNext()">下一步</div>
+      </div>
     </div>
   </div>
 </template>
@@ -48,7 +56,7 @@
       ...mapGetters({
         character: 'getCharacter',
         HEADBAR_HEIGHT: 'getHeadbarHeight',
-        DEVICE_WIDTH: 'getDeviceWidth',
+        CONTENT_WIDTH: 'getDeviceWidth',
         stageIndex: 'getStageIndex'
       }),
     },
@@ -121,13 +129,6 @@
         assignCharacter(catogory)
 
       },
-      goToNext() {
-        $('.game').css({
-          '-webkit-transform': 'translateX(-' + this.DEVICE_WIDTH * this.stageIndex + 'px)',
-          '-ms-transform': 'translateX(-' + this.DEVICE_WIDTH * this.stageIndex + 'px)',
-          'transform': 'translateX(-' + this.DEVICE_WIDTH * this.stageIndex + 'px)'
-        })
-      },
       populationAnimate() {
         // 控制RegionInfo裡面選區人口數字的動畫
         let that = this
@@ -185,6 +186,19 @@
           autoplay: true,
           path: this.bodyMovinAllPath[this.character]
         })
+      },
+      goToNext() {
+        this.setStageIndex()
+        this.setItemsPath(this.character)
+        this.updateProcessList(this.stageIndex)
+        this.populationAnimate()
+        this.assignSelectedCharacter()       
+
+        $('.game').css({
+          '-webkit-transform': 'translateX(-' + this.CONTENT_WIDTH * this.stageIndex + 'px)',
+          '-ms-transform': 'translateX(-' + this.CONTENT_WIDTH * this.stageIndex + 'px)',
+          'transform': 'translateX(-' + this.CONTENT_WIDTH * this.stageIndex + 'px)'
+        })
       }
     },
     mounted() {
@@ -200,14 +214,6 @@
       $('.election-name')[0].style['background-color'] = "#ff4e00"
       this.mayor.play()
 
-      $('.character-next-step').click(() => {
-        this.setStageIndex()
-        this.setItemsPath(this.character)
-        this.updateProcessList(this.stageIndex)
-        this.goToNext()
-        this.populationAnimate()
-        this.assignSelectedCharacter()       
-      })
     }
   }
 </script>
@@ -231,12 +237,15 @@
     align-items: center;
   }
   .character-btn-wrapper {
+    position: relative;
     width: 100%;
     display: flex;
     justify-content: space-around;
 
     .character-btn {
+      position: relative;
       width: 30%;
+      height: 100%;
       padding: 1%;
       display: flex;
       flex-direction: column;
@@ -259,48 +268,57 @@
       cursor: pointer;
     }
     .character-face {
+      position: relative;
+      width: 90%;
+      height: 100%;
       opacity: 0;
       border: none;
     }
-    #mayor-face{
-      position: relative;
-      width: 90%;
-    }    
-    #parliamentary-face{
-      position: relative;
-      width: 90%;
-    }
-    #village-face{
-      position: relative;
-      width: 90%;
-    }
-    .btn-mask {
+    .btn-mask-wrapper {
       position: absolute;
-      width: 80%;
+      left: 0;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .btn-mask {
+        position: relative;
+        width: 80%;
+      }
     }
   }
   .annotation {
+    position: relative;
+    width: 100%;
     p {
       font-size: 15px;
       line-height: 1.3;
       color: #8d8b8b;
     }
   }
-  .character-next-step {
+  .btn-wrapper {
     position: absolute;
+    left: 0;
     bottom: 15%;
-    height: 50px;
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 30px;
-    background-color: #040351;
-    color: #fff;
-    cursor: pointer;
+    .character-next-step {
+      height: 50px;
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 30px;
+      background-color: #040351;
+      color: #fff;
+      cursor: pointer;
 
-    @media screen and (min-width: 768px) {
-      width: 30%;
+      @media screen and (min-width: 768px) {
+        width: 30%;
+      }
     }
   }
 </style>

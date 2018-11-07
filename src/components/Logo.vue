@@ -37,7 +37,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.useUbrand)
+    // console.log(this.useUbrand)
   }
 }
 </script>

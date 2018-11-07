@@ -1,6 +1,7 @@
 <template>
   <div class="result-wrapper">
     <Content>
+      <p><br></p>
       <p style="text-align: center"><b>{{resultDescriptionText[character-1]}}</b></p>
       <div class="election-level-wrapper">
         <div class="election-level">
@@ -30,9 +31,9 @@
         </div>
       </div>
       <p><br></p>
+      <p><br></p>
       <p>根據聯合報採訪多位候選人和政治公關業者，估計六都市長候選人競選經費上看1.5億元；台北市議員候選人選舉花費至少500萬元。台北市里長候選人競選經費約5萬到10萬元。</p>
       <p><br></p>
-
       <div class="list-table">
         <div class="list-catogory-title">文宣小物</div>
         <div class="list-catogory">
@@ -170,7 +171,7 @@
       <p>註4：社群聊天機器人費用約6-7萬元／月，半年費用約30-40萬元。</p>
       <p><br></p>
       <div class="result-btn-wrapper">
-        <a class="result-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https://www.udn.com"><div>分享遊戲</div></a>
+        <a class="result-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=http://p.udn.com.tw/upf/newmedia/2018_data/2018election/game1/index.html"><div>分享遊戲</div></a>
         <div class="result-next-step" @click="hadleReadArticle()">看報導</div>
       </div>
     </Content>
@@ -215,7 +216,7 @@
         if (isLarger) {
           ratio = yourCost * 0.0114
         } else {
-          ratio = 10000 * 0.0114
+          ratio = 15000 * 0.0114
         }
 
         return thisCost / ratio
@@ -225,12 +226,12 @@
         let a = ['village', 'parliamentary', 'mayor', 'you']
         let c = {
           'village' : 5,
-          'parliamentary' : 300,
-          'mayor' : 10000,
+          'parliamentary' : 500,
+          'mayor' : 15000,
           'you' : cost
         }
         
-        let isLarger = cost > 10000 ? true : false
+        let isLarger = cost > 15000 ? true : false
         let translateDistance = d3.select('.level-mayor')._groups[0][0].clientHeight * 0.5
         for( let i in a ) {
           d3.select('.level-' + a[i] + '-number')
@@ -239,7 +240,7 @@
             .tween("number", function() {
               let k = d3.interpolateRound(0, c[a[i]]);
               return function(t) {
-                if(k(t) >= 10000) {
+                if(k(t) >= 15000) {
                   d3.select('.level-' + a[i] + '-number')._groups[0][0].textContent = k(t) / 10000 + '億'
                 } else {
                   d3.select('.level-' + a[i] + '-number')._groups[0][0].textContent = k(t) + '萬'

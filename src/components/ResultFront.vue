@@ -63,7 +63,7 @@
     position: relative;
     z-index: 20;
     width: 100%;
-    height: 65vh;
+    height: 62.5vh;
   }
   .result-container {
     width: 100%;

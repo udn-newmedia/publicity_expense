@@ -9,7 +9,7 @@
       <a href="https://udn.com">遊戲4</a>
     </HeadBar>
     <ResultFront v-if="gameOver"></ResultFront>
-    <GameContent v-if="detectResize" id="game-content" :style="{top: gameContentTop, marginLeft: gameContentMargin, marginRight: gameContentMargin}">
+    <GameContent id="game-content" :style="{top: gameContentTop, marginLeft: gameContentMargin, marginRight: gameContentMargin}">
       <Introduction id="introduction"></Introduction>
       <Character id="character"></Character>
       <RegionInfo id="region-info"></RegionInfo>
@@ -19,7 +19,7 @@
     <Teaching v-if="teachingGame"></Teaching>
     <ResultEnd v-if="gameOver"></ResultEnd>
     <div id="article-anchor"></div>
-    <Content v-if="readArticle" id="article-content">
+    <Content v-show="readArticle" id="article-content">
       <h3>打一場選戰燒掉多少錢？<br>選議員至少500萬 選縣市長上億起跳</h3>
       <p><br></p>
       <p>打一場選戰，究竟要燒掉多少競選經費？依候選人的策略和財力不同，選舉經費運用方式也各異，金額差距很大。</p>
@@ -86,7 +86,9 @@
         <div class="fresh-top">
           <div class="fresh-name-wrapper"><div class="fresh-name">看板</div></div>
           <div class="fresh-2">1萬／月租</div>
-          <div class="fresh-money">200-250萬元<br>（20面）</div>
+          <div class="fresh-money">200-250萬元
+            <div>（20面）</div>
+          </div>
         </div>
         <div class="fresh-bottom">
           <div class="fresh-description">註 : 從初選期間，選前10個月開始掛。總價含看板租金、吊掛費和製作費</div>
@@ -96,7 +98,9 @@
         <div class="fresh-top">
           <div class="fresh-name-wrapper"><div class="fresh-name">贈品</div></div>
           <div class="fresh-2">8元／個</div>
-          <div class="fresh-money">80萬元<br>（10萬個）</div>
+          <div class="fresh-money">80萬元
+            <div>（10萬個）</div>
+          </div>
         </div>
         <div class="fresh-bottom">
           <div class="fresh-description">註 : 贈品價格有高有低，以平均每個8元計算</div> 
@@ -106,7 +110,9 @@
         <div class="fresh-top">
           <div class="fresh-name-wrapper"><div class="fresh-name">文宣+派報</div></div>
           <div class="fresh-2">文宣1元／份<br>派報0.5元／份</div>
-          <div class="fresh-money">50-60萬元<br>（4款文宣，每款10萬份）</div>
+          <div class="fresh-money">50-60萬元
+            <div>（4款文宣，每款10萬份）</div>
+          </div>
         </div>
         <div class="fresh-bottom">
           <div class="fresh-description">註 : 總價含文宣設計、製作費和派報成本</div>
@@ -116,7 +122,9 @@
         <div class="fresh-top">
           <div class="fresh-name-wrapper"><div class="fresh-name">競選辦公室+助理</div></div>
           <div class="fresh-2">租金<br>8萬-12萬／月<br>助理<br>25K-28K／月</div>
-          <div class="fresh-money">40-50萬元<br>（1間辦公室，3-4名助理）</div>
+          <div class="fresh-money">40-50萬元
+            <div>（1間辦公室，3-4名助理）</div>
+          </div>
         </div>
         <div class="fresh-bottom">
           <div class="fresh-description">註 : 從選前3-4個月起算。</div>
@@ -133,7 +141,7 @@
       <p><br></p>
       <p><br></p>
 
-      <h3>錢坑一<br>議員掛看板 平均花上百萬</h3>
+      <h3><span style="background-color:#ff4e00">錢坑一</span><br>議員掛看板 平均花上百萬</h3>
       <p><br></p>
       <p>對議員候選人來說，選舉宣傳打的是知名度，因此掛在街頭巷尾的看板便成為最重要的宣傳管道。台北市士林、北投區議員候選人張斯綱認為，看板是選民認識你的重要媒介，因為自己是第一次參選，知名度還不夠，這次選舉自己花錢掛了38面看板，其他則是別人贊助。</p>
       <p><br></p>
@@ -176,7 +184,7 @@
       </ColumnOne>
       <p><br></p>
       <p><br></p>
-      <h3>錢坑二<br>電視廣告最燒錢 一砸就是上千萬</h3>
+      <h3><span style="background-color:#ff4e00">錢坑二</span><br>電視廣告最燒錢 一砸就是上千萬</h3>
       <p><br></p>
       <p>除了基本的看板，<strong>縣市長選舉最燒錢的部分就是媒體</strong>。台北市長柯文哲2014年公布當年競選經費，總共花了1.4億元，最後兩個月狂燒8000多萬。其中電視廣告費用驚人，一支電視廣告大概花掉近2000萬，難怪連柯P也感嘆選舉很花錢。</p>
       <p><br></p>
@@ -191,7 +199,7 @@
       </ColumnOne>
       <p><br></p>
       <p><br></p>
-      <h3>錢坑三<br>造勢晚會大動員 一場200萬跑不掉</h3>
+      <h3><span style="background-color:#ff4e00">錢坑三</span><br>造勢晚會大動員 一場200萬跑不掉</h3>
       <p><br></p>
       <p>比起議員，縣市長候選人得花更多錢在組織動員。「議員通常是跑別人的場子，縣市長要自己辦活動。」李欣晏舉例，若以一場1萬人的選前之夜活動估算，可預估約有3000到5000人是自發性參加，剩下的就要靠動員。</p>
       <p><br></p>
@@ -297,7 +305,8 @@
         href4="https://ubrand.udn.com/ubrand/story/11815/3350385" img4="./static/pictures/r4.jpg" 
         text4="進擊的地方媽媽！歐巴桑為孩子參選盼扭轉政治" > 
       </Relate>
-      <FBComment href="https://udn.com/upf/newmedia/2018_data/2018election/game1/index.html"></FBComment>
+      <FBComment href="https://udn.com/upf/newmedia/2018_data/2018election/game1/index.html">
+      </FBComment>
     </Content>
     <Foot v-if="gameOver"></Foot>
   </div>
@@ -361,9 +370,9 @@ export default {
         iconColor: "#000"
       },
       DEVICE_WIDTH: 0,
+      CONTENT_WIDTH: 0,
       statgeNum: 0,
       enterGameLocation: 0,
-      detectResize: true,
       gameContentTop: '',
       gameContentMargin: '',
       isReadMore: false
@@ -376,7 +385,7 @@ export default {
       gameOver: 'getGameStatus',
       readArticle: 'getReadArticle',
       teachingGame: 'getTeachingGame'
-    }),
+    })
   },
   methods: {      
     ...mapActions([
@@ -384,10 +393,11 @@ export default {
       'enterGame'      
     ]),
     calcWidth() {
+      this.DEVICE_WIDTH = window.innerWidth
       if(window.innerWidth <= 768) {
-        this.DEVICE_WIDTH = window.innerWidth;
+        this.CONTENT_WIDTH = window.innerWidth
       } else {
-        this.DEVICE_WIDTH = 880;
+        this.CONTENT_WIDTH = 880
       }
     },
     calcStageLocation() {
@@ -403,26 +413,38 @@ export default {
         this.$refs.readMoreRef.style.opacity = 0
         this.isReadMore = false
       }
+    },
+    isFacebookApp() {
+      let ua = navigator.userAgent
+      return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1)
     }
   },
   created() {
-    let self = this
     this.calcWidth();
     this.setDeviceWidth({
-      "width": this.DEVICE_WIDTH,
+      "width": this.CONTENT_WIDTH,
     })
 
-    // 解決resize的問題
-    window.addEventListener('resize', function(){
-      window.location.assign('http://nmdap.udn.com.tw/election_2018/game_1/index.html')
-    })
+    // 解決iPhone SE在FB瀏覽器的問題
+    if (this.isFacebookApp()) {
+      if (window.innerWidth === 978 || window.innerWidth === 979 || window.innerWidth === 980)
+      window.location.reload()
+    }
 
+    // 解決電腦版resize的問題
+    if(window.innerWidth >= 768) {
+      window.addEventListener('resize', function(){
+        if(this.DEVICE_WIDTH !== window.innerWidth){
+          window.location.reload()
+        }
+      })
+    }
   },
   mounted() {
     this.statgeNum = this.stageID.length
     this.calcStageLocation()
-    this.gameContentTop = this.HEADBAR_HEIGHT + 'px'
-    this.gameContentMargin = ((window.clientWidth - this.DEVICE_WIDTH) * 0.5) + 'px'
+    this.gameContentTop = this.CONTENT_WIDTH + 'px'
+    this.gameContentMargin = ((window.clientWidth - this.CONTENT_WIDTH) * 0.5) + 'px'
   }
 }
 </script>
@@ -501,10 +523,15 @@ export default {
     .fresh-money {
       width: 30%;
       display: flex;
+      flex-direction: column;
       justify-content: flex-end;
       align-items: start;
-      text-align: right;
+      text-align: start;
       color: #ff4e00;
+      div {
+        color: #333;
+        text-align: start;
+      }
     }
     .fresh-description {
       position: relative;

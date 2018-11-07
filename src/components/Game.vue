@@ -14,8 +14,7 @@
           v-bind:index="index"
           v-bind:key="item.key"
           :style="{width: calcItemLogoSize()[0]}">
-            <div 
-              class="img-shadow"
+            <div class="img-shadow"
               :id="'img-shadow-' + index"
               :style="{
                 width: calcItemLogoSize()[1], 
@@ -28,7 +27,8 @@
                 :id="'img-bottom-' + index" 
                 :src="item.logo"
                 :style="{
-                  width: calcItemLogoSize()[0]
+                  width: calcItemLogoSize()[0],
+                  height: calcItemLogoSize()[0]
                 }"
               />
             </div>
@@ -38,7 +38,8 @@
                 :id="'img-top-' + index" 
                 :src="item.logo" 
                 :style="{
-                  width: calcItemLogoSize()[0]
+                  width: calcItemLogoSize()[0],
+                  height: calcItemLogoSize()[0]
                 }"
               />
             </div>
@@ -74,11 +75,11 @@
       </div>
     </div>
     <div class="game-btn-wrapper">
-      <div class="clear-btn">全部清除</div>
-      <div class="game-next-step">選好了</div>
+      <div class="clear-btn" @click="clearGame()">全部清除</div>
+      <div class="game-next-step" @click="goToNext()">選好了</div>
     </div>
     <audio id="sound-effect">
-      <source src="static/drop.mp3" type="audio/mpeg">
+      <source src="static/coin05.mp3" type="audio/mpeg">
     </audio>
   </div>
 </template>
@@ -99,7 +100,10 @@
         itemInPoolList: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
         itemInPoolAmountList: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         totalCost: 0,
-        forceUpdate: 0
+        forceUpdate: 0,
+        enterZone: true,
+        // enterZone: false
+
       }
     },
     computed: {
@@ -140,7 +144,7 @@
         })
       },
       calcItemLogoSize() {
-        if(window.innerWidth > 768) {
+        if(window.innerWidth >= 768) {
           return [
             880 * 0.13 + 'px', 
             880 * 0.13 * 0.9 + 'px', 
@@ -148,9 +152,9 @@
           ]
         } else {
           return [
-            window.innerWidth * 0.167 + 'px', 
-            window.innerWidth * 0.167 * 0.90 + 'px', 
-            window.innerWidth * 0.167 * 0.45 + 'px'
+            this.DEVICE_WIDTH * 0.167 + 'px', 
+            this.DEVICE_WIDTH * 0.167 * 0.90 + 'px', 
+            this.DEVICE_WIDTH * 0.167 * 0.45 + 'px'
           ]
         }
         
@@ -159,7 +163,7 @@
         if( id === 'bag' || id === 'mask') {
           let characterPosition = [d3.select('#selected-character-all')._groups[0][0].offsetLeft * 1, d3.select('#selected-character-all')._groups[0][0].offsetTop * 1]
           
-          let characterSize = window.innerWidth > 768 ? 
+          let characterSize = window.innerWidth >= 768 ? 
           [
             d3.select('.item-pool')._groups[0][0].clientWidth * 0.2, d3.select('.item-pool')._groups[0][0].clientWidth * 0.2 * 1.999
           ] : 
@@ -168,12 +172,18 @@
           ]
           
           if(id === 'bag') {
-            this.items[id].translate = 'translate(' + (characterPosition[0] + (characterSize[0] * 0.15)) + 'px,' + (characterPosition[1] + (characterSize[1] * 0.26)) +'px)'
-
+            if (window.innerWidth !== 768) { 
+              this.items[id].translate = 'translate(' + (characterPosition[0] + (characterSize[0] * 0.15)) + 'px,' + (characterPosition[1] + (characterSize[1] * 0.26)) +'px)'
+            } else {
+              this.items[id].translate = 'translate(' + (characterPosition[0] + (characterSize[0] * 0.15)) + 'px,' + (characterPosition[1] + (characterSize[1] * 0.35)) +'px)'
+            }
           } else {
-            this.items[id].translate = 'translate(' + (characterPosition[0] + (characterSize[0] * 0.405)) + 'px,' + (characterPosition[1] + (characterSize[1] * 0.175)) +'px)'
+            if (window.innerWidth !== 768) {
+              this.items[id].translate = 'translate(' + (characterPosition[0] + (characterSize[0] * 0.405)) + 'px,' + (characterPosition[1] + (characterSize[1] * 0.175)) +'px)'
+            } else {
+              this.items[id].translate = 'translate(' + (characterPosition[0] + (characterSize[0] * 0.405)) + 'px,' + (characterPosition[1] + (characterSize[1] * 0.25)) +'px)'
+            }
           }
-          
         } else {
           let item_width = d3.select('.item-pool-wrapper').select('#item-bm-' + id)._groups[0][0].clientWidth
 
@@ -216,23 +226,28 @@
             .transition()
             .duration(1111)
             .style('background-color', '#040351')
+
+          document.getElementById('sound-effect').load()
+          document.getElementById('sound-effect').play()
         }
 
         function dragged() {
           selectedItem
             .style('transform', self.calcItemImageTranslate(d3.event.x, d3.event.y))
 
-          if(d3.event.y > enterLine) {
-            enterZone = true
-          }
+          // if(d3.event.y > enterLine) {
+          //   self.enterZone = true
+          // }
           //  else {
-          //   enterZone = false
+          //   if (!self.itemInPoolList[self.items[id].key - 1]) {
+          //     self.enterZone = false
+          //   }
           // }
         }
 
         function dragEnded() {
           
-          if(enterZone) {
+          if(self.enterZone) {
             if(!self.itemInPoolList[self.items[id].key - 1]) {
               self.drawItemBM(id)
               self.calcItemTranslate(id)
@@ -262,8 +277,6 @@
             self.itemInPoolAmountList[self.items[id].key - 1]++
             self.forceUpdate++
             self.totalCost += self.items[id].unitAmount * self.items[id].cost
-            document.getElementById('sound-effect').load()
-            document.getElementById('sound-effect').play()
 
             selectedItem
               .transition()
@@ -347,7 +360,6 @@
           }         
         }
 
-        let enterZone = false
         let selectedItem = d3.select('#img-top-' + id)
           .call(d3.drag()
             .on('start', dragStarted)
@@ -356,38 +368,26 @@
           )
       },
       handleGameContent() {
-        d3.selectAll('#game-content')
-          .style('position', 'absolute')
-          .style('top', 15 + '%')
-          // .style('height', 'calc(' + 100 + 'vh')
-          .style('transform', 'translateY(' + 0 + 'px) scale(' + 1 + ')')
-          .transition()
-          .duration(1111)
-          // .style('height', 'calc(' + 50 + 'vh')
-          .style('transform', 'translateY(' + (-window.innerHeight * 0.1) + 'px) scale(' + 0.5 + ')')
+        if (window.innerWidth >= 768) {
+          d3.selectAll('#game-content')
+            .style('position', 'absolute')
+            .style('top', 15 + '%')
+            .style('transform', 'translateY(' + 0 + 'px) scale(' + 1 + ')')
+            .transition()
+            .duration(1111)
+            .style('transform', 'translateY(' + (-window.innerHeight * 0.1) + 'px) scale(' + 0.5 + ')')
+        } else {
+          d3.selectAll('#game-content')
+            .style('position', 'absolute')
+            .style('top', 15 + '%')
+            .style('transform', 'translateY(' + 0 + 'px) scale(' + 1 + ')')
+            .transition()
+            .duration(1111)
+            .style('transform', 'translateY(' + (-window.innerHeight * 0.095) + 'px) scale(' + 0.5 + ')')
+        }
       },
       goToNext() {
-        $('.game').css({
-          '-webkit-transform': 'translateX(-' + this.DEVICE_WIDTH * this.stageIndex + 'px)',
-          '-ms-transform': 'translateX(-' + this.DEVICE_WIDTH * this.stageIndex + 'px)',
-          'transform': 'translateX(-' + this.DEVICE_WIDTH * this.stageIndex + 'px)'
-        })
-      }
-    },
-    mounted() {
-      // 計算item_list的寬度
-      this.item_list_width = d3.select('.item-list-wrapper')._groups[0][0].clientWidth * 0.3333
-      this.itemImageWidth = d3.select('.img-top')._groups[0][0].clientWidth
-      this.itemListSelect(this)
-
-      let self = this;
-      let enterLine = d3.select('.item-pool')._groups[0][0].clientHeight * 0.3 + d3.select('.item-list-wrapper')._groups[0][0].clientHeight * 0.5
-
-      for(let i in this.items){
-        this.assignDragEvent(i, self, enterLine)
-      }
-
-      $('.game-next-step').click(() => {
+        let self = this
         self.setStageIndex()
         self.updateProcessList(self.stageIndex)
         self.setFinalResult(self.totalCost)
@@ -417,19 +417,32 @@
           nextStepFunction()
           self.handleGameContent()
         })
-      })
+      },
+      clearGame() {
+        this.clearBM();
+        // this.enterZone = false
 
-      $('.clear-btn').click(() => {
-          this.clearBM();
+        for(let i in this.itemInPoolList) {
+          this.itemInPoolList[i] = false
+        }
+        for(let i in this.itemInPoolAmountList) {
+          this.itemInPoolAmountList[i] = 0
+        }
+        this.totalCost = 0
+      }
+    },
+    mounted() {
+      // 計算item_list的寬度
+      this.item_list_width = d3.select('.item-list-wrapper')._groups[0][0].clientWidth * 0.3333
+      this.itemImageWidth = d3.select('.img-top')._groups[0][0].clientWidth
+      this.itemListSelect(this)
 
-          for(let i in this.itemInPoolList) {
-            this.itemInPoolList[i] = false
-          }
-          for(let i in this.itemInPoolAmountList) {
-            this.itemInPoolAmountList[i] = 0
-          }
-          this.totalCost = 0
-      })
+      let self = this;
+      let enterLine = d3.select('.item-pool')._groups[0][0].clientHeight * 0.3 + d3.select('.item-list-wrapper')._groups[0][0].clientHeight * 0.5
+
+      for(let i in this.items){
+        this.assignDragEvent(i, self, enterLine)
+      }
     },
   }
 </script>
@@ -501,7 +514,7 @@
     .img-top {
       position: absolute;
       z-index: 30;
-      top:0;
+      top: 0;
       left: 0;
       opacity: 0.8;
     }
@@ -568,6 +581,7 @@
       @media screen and (min-width: 768px) {
         left: 40%;
         width: 20%;
+        height: 50%;
       }
     }
     #floor {
@@ -585,6 +599,7 @@
     #item-bm-mask {
       position: absolute;
       width: 15%;
+      height: 10%;
       top: 0%;
       left: 0%;
       @media screen and (min-width: 768px) {
@@ -639,17 +654,21 @@
     #item-bm-campaign {
       position: absolute;
       width: 150%;
-      top: 45%;
+      height: 100%;
+      top: 30%;
       left: 50%;
       @media screen and (min-width: 768px) {
-        top: 25%;
+        top: 15%;
+        // top: 25%;
         left: 50%;
       }
     }
     #item-bm-campaign_2 {
       position: absolute;
       width: 100%;
-      top: 5%;
+      height: 80%;
+      top: -5%;
+      // top: 0%;
       @media screen and (min-width: 768px) {
         width: 80%;
         left: 10%;

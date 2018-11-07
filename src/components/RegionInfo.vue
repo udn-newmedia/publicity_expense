@@ -1,23 +1,25 @@
 <template>
-  <div class="region-info-wrapper">
+  <div class="region-info-wrapper" ref="regionInfoRef">
     <div class="region-info-container">
-      <h2>你的選區約有</h2>
+      <h3>你的選區約有</h3>
       <div class="region-population">
         <span class="region-population-left"></span>
         <span v-if="character!==1" class="region-population-left">-</span>
         <span v-if="character!==1" class="region-population-right"></span>
         <span v-if="character!==3" class="region-population-unit"></span>
       </div>
-
-      <h2>投票人口</h2>
-      <p><br></p>
+      <h3>投票人口</h3>
 
       <div class="info-text-wrapper"><p>{{ infoText[character] }}</p></div>
       <div class="face-wrapper">
         <div id="selected-character"></div>
       </div>
-      <div class="annotation"><p>請根據選區的投票人口數評估，</p><p>點「下一步」選擇你需要多少宣傳資源。</p></div>
-      <div class="region-info-next-step">下一步</div>
+      <div class="annotation">
+        <p>請根據選區投票人口評估需要多少宣傳資源。</p>
+      </div>
+      <div class="btn-wrapper">
+        <div class="region-info-next-step" @click="goToNext()">下一步</div>
+      </div>
     </div>
   </div>  
 </template>
@@ -31,7 +33,7 @@
     computed: {
       ...mapGetters({
         HEADBAR_HEIGHT: 'getHeadbarHeight',
-        DEVICE_WIDTH: 'getDeviceWidth',
+        CONTENT_WIDTH: 'getDeviceWidth',
         stageIndex: 'getStageIndex',
         character: 'getCharacter'
       }),
@@ -57,24 +59,23 @@
         'setTeachingGame'
       ]),
       goToNext() {
-        $('.game').css({
-          '-webkit-transform': 'translateX(-' + this.DEVICE_WIDTH * this.stageIndex + 'px)',
-          '-ms-transform': 'translateX(-' + this.DEVICE_WIDTH * this.stageIndex + 'px)',
-          'transform': 'translateX(-' + this.DEVICE_WIDTH * this.stageIndex + 'px)'
-        })
-      }
-    },
-    mounted() {
-      $('.region-info-next-step').click(() => {
         this.setStageIndex()
         this.updateProcessList(this.stageIndex)
         this.setTeachingGame(true)
-        this.goToNext()
-      })
+
+        $('.game').css({
+          '-webkit-transform': 'translateX(-' + this.CONTENT_WIDTH * this.stageIndex + 'px)',
+          '-ms-transform': 'translateX(-' + this.CONTENT_WIDTH * this.stageIndex + 'px)',
+          'transform': 'translateX(-' + this.CONTENT_WIDTH* this.stageIndex + 'px)'
+        })
+      }
     }
   }
 </script>
 <style lang="scss" scoped>
+  h3 {
+    margin: 10px 0;
+  }
   p {
     text-align: center;
   }
@@ -111,6 +112,10 @@
       font-weight: 700;
     }
   }
+  .info-text-wrapper {
+    position: relative;
+    width: 100%;
+  }
   .face-wrapper {
     width: 100%;
     display: flex;
@@ -119,32 +124,46 @@
 
     #selected-character{
       position: relative;
-      width: 30%;
-    }   
+      width: 25%;
+
+      @media screen and (min-width: 768px) {
+        width: 30%;
+      }
+    }
   }
   .annotation {
+    position: relative;
+    width: 100%;
     p {
       font-size: 15px;
       line-height: 1.3;
       color: #8d8b8b;
     }
   }
-  .region-info-next-step {
+  .btn-wrapper {
     position: absolute;
+    left: 0;
     bottom: 15%;
-    height: 50px;
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 30px;
-    background-color: #040351;
-    color: #fff;
-    cursor: pointer;
+    .region-info-next-step {
+      height: 50px;
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 30px;
+      background-color: #040351;
+      color: #fff;
+      cursor: pointer;
 
-    @media screen and (min-width: 768px) {
-      width: 30%;
+      @media screen and (min-width: 768px) {
+        width: 30%;
+      }
     }
   }
+  
 </style>
 
