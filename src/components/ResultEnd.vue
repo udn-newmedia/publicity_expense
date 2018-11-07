@@ -171,7 +171,7 @@
       <p>註4：社群聊天機器人費用約6-7萬元／月，半年費用約30-40萬元。</p>
       <p><br></p>
       <div class="result-btn-wrapper">
-        <a class="result-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=http://p.udn.com.tw/upf/newmedia/2018_data/2018election/game1/index.html"><div>分享遊戲</div></a>
+        <a class="result-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=http://p.udn.com.tw/upf/newmedia/2018_data/2018election/game1/index.html" @click="sendGA('分享遊戲')"><div>分享遊戲</div></a>
         <div class="result-next-step" @click="hadleReadArticle()">看報導</div>
       </div>
     </Content>
@@ -179,7 +179,7 @@
 </template>
 
 <script>
-
+  import Utils from 'udn-newmedia-utils'
   import { mapGetters, mapActions } from 'vuex'
   import * as d3 from 'd3'
 
@@ -277,6 +277,7 @@
         }
       },
       hadleReadArticle() {
+        this.sendGA('分享遊戲')
         this.setReadArticle(true)
         this.setStageIndex()
         // this.updateProcessList(this.stageIndex)
@@ -285,6 +286,14 @@
         $('.header')[0].style.position = 'fixed'
         $('html, body').animate({scrollTop: $('#article-anchor')[0].offsetTop}, 1111)
 
+      },
+      sendGA(titleText) {
+        window.ga("newmedia.send", {
+          "hitType": "event",
+          "eventCategory": "game_result",
+          "eventAction": "click",
+          "eventLabel": "[" + Utils.detectPlatform() + ", " + titleText + "]"
+        })
       }
     },
     mounted() {

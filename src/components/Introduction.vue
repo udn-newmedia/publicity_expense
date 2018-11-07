@@ -17,7 +17,7 @@
 </template>
 
 <script>
-
+  import Utils from 'udn-newmedia-utils'
   import { mapGetters, mapActions } from 'vuex'
   import Share from '@/components/Share'
 
@@ -44,6 +44,7 @@
         'updateProcessList'
       ]),
       goToNext() {
+        this.sendStageGA('stage-1')
         this.setStageIndex()
         this.updateProcessList(this.stageIndex)
 
@@ -55,6 +56,14 @@
         $('.menu-watch-report').css({
           'display': 'block',
           'opacity': '1'
+        })
+      },
+      sendStageGA(text) {
+        window.ga("newmedia.send", {
+          "hitType": "event",
+          "eventCategory": "game_stage",
+          "eventAction": "click",
+          "eventLabel": "[" + Utils.detectPlatform() + ", " + text + "]"
         })
       }
     },

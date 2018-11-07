@@ -45,7 +45,7 @@
 </template>
 
 <script>
-
+  import Utils from 'udn-newmedia-utils'
   import { mapGetters, mapActions } from 'vuex'
   import * as bodymovin from 'lottie-web'
   import * as d3 from 'd3'
@@ -188,6 +188,8 @@
         })
       },
       goToNext() {
+        this.sendGA(this.character)
+        this.sendStageGA('stage-2')
         this.setStageIndex()
         this.setItemsPath(this.character)
         this.updateProcessList(this.stageIndex)
@@ -198,6 +200,27 @@
           '-webkit-transform': 'translateX(-' + this.CONTENT_WIDTH * this.stageIndex + 'px)',
           '-ms-transform': 'translateX(-' + this.CONTENT_WIDTH * this.stageIndex + 'px)',
           'transform': 'translateX(-' + this.CONTENT_WIDTH * this.stageIndex + 'px)'
+        })
+      },
+      sendGA(character) {
+        let characterText = {
+          1: '市長',
+          2: '議員',
+          3: '里長'
+        }
+        window.ga("newmedia.send", {
+          "hitType": "event",
+          "eventCategory": "selected_character",
+          "eventAction": "click",
+          "eventLabel": "[" + Utils.detectPlatform() + ", " + characterText[character] + "]"
+        })
+      },
+      sendStageGA(text) {
+        window.ga("newmedia.send", {
+          "hitType": "event",
+          "eventCategory": "game_stage",
+          "eventAction": "click",
+          "eventLabel": "[" + Utils.detectPlatform() + ", " + text + "]"
         })
       }
     },

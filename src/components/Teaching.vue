@@ -19,7 +19,8 @@
       <div class="teaching-class-text">點選可切換不同宣傳資源類別</div>
     </div>
 
-    <div class="close-btn" @click="ignoreTeaching('C')"></div>
+    <div class="teaching-title">遊戲教學</div>
+    <div class="close-btn" @click="ignoreTeaching('D')"><p>略過教學</p></div>
 
     <div class="ignore-btn-wrapper">
       <div v-if="teachingStep.A" class="ignore-btn" @click="ignoreTeaching('A')">下一步</div>
@@ -37,6 +38,7 @@
   </div>
 </template>
 <script>
+import Utils from 'udn-newmedia-utils'
 import { mapActions } from "vuex";
 import * as bodymovin from "lottie-web";
 import * as d3 from "d3";
@@ -67,6 +69,7 @@ export default {
       });
     },
     ignoreTeaching(index) {
+      this.sendStageGA(index)
       switch (index) {
         case "A":       
           this.teachingStep['A'] = false;
@@ -87,7 +90,25 @@ export default {
         case "C":
           this.setTeachingGame(false);
           break;
+        case "D":
+          this.setTeachingGame(false);
+          break;
       }
+    },
+    sendStageGA(text, step) {
+      let stepText = {
+        'A': '第一步',
+        'B': '第二步',
+        'C': '我知道了',
+        'D': '略過教學'
+      }
+
+      window.ga("newmedia.send", {
+        "hitType": "event",
+        "eventCategory": "game-teaching",
+        "eventAction": "click",
+        "eventLabel": "[" + Utils.detectPlatform() + ", " + stepText[text] + "]"
+      })
     }
   },
   mounted() {
@@ -236,33 +257,21 @@ export default {
     }
   }
 
+  .teaching-title {
+    position: absolute;
+    top: 32px;
+    font-size: 48px;
+    color: #ffffff;
+  }
   .close-btn {
     position: absolute;
-    right: 32px;
-    top: 32px;
-    width: 32px;
-    height: 32px;
-    opacity: 1;
-    border-radius: 16px;
-    background-color: #000000;
+    right: 10px;
+    top: 10px;
+    text-align: end;
+    color: #ffffff;
     cursor: pointer;
   }
-  .close-btn:before,
-  .close-btn:after {
-    position: absolute;
-    left: 15px;
-    top: 4px;
-    content: " ";
-    height: 23px;
-    width: 3px;
-    background-color: #ffffff;
-  }
-  .close-btn:before {
-    transform: rotate(45deg);
-  }
-  .close-btn:after {
-    transform: rotate(-45deg);
-  }
+
 
   .ignore-btn-wrapper {
     position: absolute;

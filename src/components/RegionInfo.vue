@@ -24,7 +24,7 @@
   </div>  
 </template>
 <script>
-
+  import Utils from 'udn-newmedia-utils'
   import { mapGetters, mapActions } from 'vuex'
   import * as bodymovin from 'lottie-web'
 
@@ -59,6 +59,7 @@
         'setTeachingGame'
       ]),
       goToNext() {
+        this.sendStageGA('stage-3')
         this.setStageIndex()
         this.updateProcessList(this.stageIndex)
         this.setTeachingGame(true)
@@ -67,6 +68,14 @@
           '-webkit-transform': 'translateX(-' + this.CONTENT_WIDTH * this.stageIndex + 'px)',
           '-ms-transform': 'translateX(-' + this.CONTENT_WIDTH * this.stageIndex + 'px)',
           'transform': 'translateX(-' + this.CONTENT_WIDTH* this.stageIndex + 'px)'
+        })
+      },
+      sendStageGA(text) {
+        window.ga("newmedia.send", {
+          "hitType": "event",
+          "eventCategory": "game_stage",
+          "eventAction": "click",
+          "eventLabel": "[" + Utils.detectPlatform() + ", " + text + "]"
         })
       }
     }

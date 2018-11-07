@@ -7,9 +7,9 @@
         <div v-if="stageIndex === 3" class="muted-btn" @click="muteSoundEffect"><img :src="mutedImage" alt=""></div>
       </div>
       <div class="menu_box">
-        <div class="menu-eleciton-zone"><a href="https://udn.com/vote2018/index" target="_blank" @click="sendGA()">選戰專區</a></div>
+        <div class="menu-eleciton-zone"><a href="https://udn.com/vote2018/index" target="_blank" @click="sendGA('選戰專區')">選戰專區</a></div>
         <div class="menu-watch-report" @click="hadleReadArticle()">看報導</div>
-        <div class="go-play-game"><a href="https://udn.com/upf/newmedia/2018_data/2018election/game1/index.html">去玩遊戲</a></div>
+        <div class="go-play-game" @click="sendGA('去玩遊戲')"><a href="https://udn.com/upf/newmedia/2018_data/2018election/game1/index.html">去玩遊戲</a></div>
       </div>
     </div>
   
@@ -80,6 +80,8 @@ export default {
       })
     },
     hadleReadArticle() {
+      this.sendGA('看報導')
+
       document.getElementsByClassName('header')[0].style['position'] = 'fixed'
       document.getElementsByClassName('game-wrapper')[0].style['display'] = 'none'
       document.getElementsByClassName('menu-watch-report')[0].style['display'] = 'none'
@@ -100,12 +102,12 @@ export default {
         $('#sound-effect').prop('muted', false);
       }
     },
-    sendGA(catogory, label) {
+    sendGA(titleText) {
       window.ga("newmedia.send", {
         "hitType": "event",
         "eventCategory": "headbar",
         "eventAction": "click",
-        "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [" + vm.$slots.default[i].elm.href + "][" + vm.$slots.default[i].elm.innerHTML + "] [HeadBar 外連點擊]"
+        "eventLabel": "[" + Utils.detectPlatform() + ", " + titleText + "]"
       })
     }
   },

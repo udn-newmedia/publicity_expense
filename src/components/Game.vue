@@ -85,7 +85,7 @@
 </template>
 
 <script>
-
+  import Utils from 'udn-newmedia-utils'
   import { mapGetters, mapActions } from 'vuex'
   import * as bodymovin from 'lottie-web'
   import * as d3 from 'd3'
@@ -220,7 +220,7 @@
           this.totalCost = 0
       },
       assignDragEvent(id, self, enterLine) {
-
+        
         function dragStarted() {
           d3.selectAll('#img-shadow-' + id)
             .transition()
@@ -229,6 +229,7 @@
 
           document.getElementById('sound-effect').load()
           document.getElementById('sound-effect').play()
+          self.sendItemsGA(id)
         }
 
         function dragged() {
@@ -246,7 +247,7 @@
         }
 
         function dragEnded() {
-          
+
           if(self.enterZone) {
             if(!self.itemInPoolList[self.items[id].key - 1]) {
               self.drawItemBM(id)
@@ -387,6 +388,9 @@
         }
       },
       goToNext() {
+        this.sendGA('選好了')
+        this.sendStageGA('stage-4')
+
         let self = this
         self.setStageIndex()
         self.updateProcessList(self.stageIndex)
@@ -419,6 +423,7 @@
         })
       },
       clearGame() {
+        this.sendGA('全部清除')
         this.clearBM();
         // this.enterZone = false
 
@@ -429,6 +434,30 @@
           this.itemInPoolAmountList[i] = 0
         }
         this.totalCost = 0
+      },
+      sendGA(titleText) {
+        window.ga("newmedia.send", {
+          "hitType": "event",
+          "eventCategory": "game_btn",
+          "eventAction": "click",
+          "eventLabel": "[" + Utils.detectPlatform() + ", " + titleText + "]"
+        })
+      },
+      sendItemsGA(titleText) {
+        window.ga("newmedia.send", {
+          "hitType": "event",
+          "eventCategory": "game_items_btn",
+          "eventAction": "click",
+          "eventLabel": "[" + Utils.detectPlatform() + ", " + titleText + "]"
+        })
+      },
+      sendStageGA(text) {
+        window.ga("newmedia.send", {
+          "hitType": "event",
+          "eventCategory": "game_stage",
+          "eventAction": "click",
+          "eventLabel": "[" + Utils.detectPlatform() + ", " + text + "]"
+        })
       }
     },
     mounted() {
